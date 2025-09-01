@@ -1,0 +1,105 @@
+schema: '2.0'
+stages:
+  prepare_data:
+    cmd: python3 src/prepare_data.py
+    deps:
+    - path: raw_dataset
+      hash: md5
+      md5: faeede365138f3714f05c2a3ea93ecb9.dir
+      size: 61194
+      nfiles: 1
+    - path: src/prepare_data.py
+      hash: md5
+      md5: 7bdeb36dd9d73495ac799d6069cdf17e
+      size: 1166
+    outs:
+    - path: data/prepared
+      hash: md5
+      md5: c268bd570873e8c337562424780a5eff.dir
+      size: 41449
+      nfiles: 8
+  preprocess:
+    cmd: python3 src/preprocess.py
+    deps:
+    - path: data/prepared/train.parquet
+      hash: md5
+      md5: 4e392bc997206e005fe36d9dafde7de4.dir
+      size: 31453
+      nfiles: 4
+    - path: src/preprocess.py
+      hash: md5
+      md5: a89a5d4a83266129d024dc408afbf43a
+      size: 2131
+    outs:
+    - path: models/preprocessor
+      hash: md5
+      md5: ff9905e9cd98a987b2bf3106410c2254.dir
+      size: 8617
+      nfiles: 72
+  train:
+    cmd: python3 src/train.py
+    deps:
+    - path: data/prepared/train.parquet
+      hash: md5
+      md5: 4e392bc997206e005fe36d9dafde7de4.dir
+      size: 31453
+      nfiles: 4
+    - path: models/preprocessor
+      hash: md5
+      md5: ff9905e9cd98a987b2bf3106410c2254.dir
+      size: 8617
+      nfiles: 72
+    - path: src/train.py
+      hash: md5
+      md5: 446fc88a5c50af9781e847a51707e991
+      size: 4682
+    outs:
+    - path: models/classifier
+      hash: md5
+      md5: dbc23d210b0265fc89c7b90ee32d66da.dir
+      size: 23639
+      nfiles: 12
+  evaluate:
+    cmd: python3 src/evaluate.py
+    deps:
+    - path: data/prepared/test.parquet
+      hash: md5
+      md5: 6544973a78d9704bd0d12d67ac1997f1.dir
+      size: 9996
+      nfiles: 4
+    - path: models/classifier
+      hash: md5
+      md5: dbc23d210b0265fc89c7b90ee32d66da.dir
+      size: 23639
+      nfiles: 12
+    - path: models/preprocessor
+      hash: md5
+      md5: ff9905e9cd98a987b2bf3106410c2254.dir
+      size: 8617
+      nfiles: 72
+    - path: src/evaluate.py
+      hash: md5
+      md5: c2ca8ced289a878266844493e9d939ad
+      size: 4032
+    outs:
+    - path: metrics/scores.json
+      hash: md5
+      md5: b2dee5893734c84e2e8ded1fb0a36f9a
+      size: 173
+  detect_drift:
+    cmd: python3 src/detect_drift.py
+    deps:
+    - path: data/prepared
+      hash: md5
+      md5: c268bd570873e8c337562424780a5eff.dir
+      size: 41449
+      nfiles: 8
+    - path: src/detect_drift.py
+      hash: md5
+      md5: 6d2dfa7570054c5e468c07e60b869f48
+      size: 3304
+    outs:
+    - path: reports/drift_report.json
+      hash: md5
+      md5: c6ec12e538de8be11fdfff01e619741b
+      size: 479

@@ -1,0 +1,71 @@
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pylint.d
+
+# Virtual environments
+env/
+venv/
+.venv/
+*.env
+
+# ======================
+# DVC & Data
+# ======================
+.dvc/cache/
+*.dvc.lock
+# Ignore raw datasets if you have DVC tracking
+raw_dataset/*.csv
+data/prepared/
+data/processed/
+models/
+metrics/scores.json
+
+# ======================
+# MLflow
+# ======================
+mlruns/
+mlflow.db
+
+# ======================
+# Reports & Logs
+# ======================
+reports/
+*.log
+
+# ======================
+# Jupyter Notebook
+# ======================
+.ipynb_checkpoints/
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ======================
+# OS files
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Spark / Hadoop
+# ======================
+spark-warehouse/
+*.class
+*.jar
+*.out
+
+# ======================
+# Keep Docker files tracked!
+# ======================
+# Dockerfile and docker-compose.yml should be included in Git
